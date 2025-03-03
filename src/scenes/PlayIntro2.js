@@ -1,6 +1,6 @@
-class PlayIntro extends Phaser.Scene {
+class PlayIntro2 extends Phaser.Scene {
     constructor() {
-        super('PlayIntro')
+        super('PlayIntro2')
     }
 
     create() {
@@ -11,6 +11,8 @@ class PlayIntro extends Phaser.Scene {
         //the game starts with the character getting out the elevator
         //and sending the player to the main game scene
         //this.scene.start('Play')
+
+
 
 
     }

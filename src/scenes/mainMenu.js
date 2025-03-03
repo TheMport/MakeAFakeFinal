@@ -21,7 +21,7 @@ class mainMenu extends Phaser.Scene {
         
 
         if (this.keySpace.isDown) {
-            this.scene.start('PlayIntro')
+            this.scene.start('PlayIntro1')
         }
 
     }

@@ -20,7 +20,7 @@ let config = {
             }
         }
     },
-    scene: [preload, mainMenu, PlayIntro]
+    scene: [preload, mainMenu, PlayIntro1,PlayIntro2,PlayMain]
 }
 
 
