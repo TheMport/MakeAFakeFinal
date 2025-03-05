@@ -5,9 +5,8 @@ class mainMenu extends Phaser.Scene {
 
     create() { 
 
-        this.add.image(this.game.renderer.width/2,this.game.renderer.height/2,'MainMenuPage').setOrigin(0.5,0.5).setDepth(2)
-
-
+        let video = this.add.video(640, 360, 'MainMenuIntro').setOrigin(0.5, 0.5);
+        video.play(true)    //makes it loop until space is pressed
 
 
         

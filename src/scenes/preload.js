@@ -22,12 +22,16 @@ class preload extends Phaser.Scene {
 
 
         //load main menu assets & sounds
-        this.load.image('MainMenuPage', 'assets/tempMM.png')
+        this.load.video('MainMenuIntro','assets/MainMenuIntro.mp4')
+        //  Once space is hit send to PlayIntro1 scene to begin game
 
         //load PlayIntro1 assets & sounds
-        this.load.video('tempIntro', 'assets/tempIntro.mp4')
-
+        this.load.video('PlayIntro1', 'assets/PlayIntro1.mp4')
+        
         //load PlayIntro2 assets & sounds
+        this.load.video('PlayIntro2', 'assets/PlayIntro2.mp4')
+
+        //load PlayIntro3 assets & sounds
 
 
         //load tilemap
