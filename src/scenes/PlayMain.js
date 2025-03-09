@@ -29,6 +29,7 @@ class PlayMain extends Phaser.Scene {
 
         //Player character sprite and animations
         this.player = this.physics.add.sprite(64,544, 'playerIdle')
+        //this.player.collider = world:wallRectangleCollider
 
         this.anims.create({
             key:'idle',
@@ -52,13 +53,20 @@ class PlayMain extends Phaser.Scene {
         this.cameras.main.setZoom(2)
 
         
-        // Enable collision on the tilemap layer for walls
-        // not working properly
-        wallLayer.setCollisionByProperty({ collides: true });
-        this.physics.add.collider(this.player, wallLayer);
-        
+        // Enable collision for player on the tilemap layer for walls
 
-        //this.physics.add.collider(this.player, wall);
+        this.physics.add.collider(this.player, wallLayer)
+        //need to add list of all tiles used for bounds
+        wallLayer.setCollisionBetween(149, 151)
+
+        //add keys (possibly RNG?)
+
+        //add key HUD
+
+        //add timer if fail game over
+
+        //add timer HUD
+
         //add player movement and controls
         this.cursors = this.input.keyboard.createCursorKeys()
     }
@@ -90,6 +98,18 @@ class PlayMain extends Phaser.Scene {
         }else{
             this.player.setVelocityY(0)
         }
+
+        if(!this.cursors.left.isDown &&
+            !this.cursors.right.isDown &&
+            !this.cursors.up.isDown &&
+            !this.cursors.down.isDown){
+            this.player.play('idle')
+        }
+
+
+        //player collecting keys
+
+        
 
     }
 
