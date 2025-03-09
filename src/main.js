@@ -1,5 +1,3 @@
-
-
 'use strict'
 
 let config = {
@@ -20,7 +18,7 @@ let config = {
             }
         }
     },
-    scene: [preload,mainMenu,PlayIntro1,PlayIntro2,PlayIntro3,PlayMain]
+    scene: [preload,mainMenu,PlayIntro1,PlayIntro2,PlayIntro3,Talking,PlayMain]
 }
 
 

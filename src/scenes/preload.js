@@ -22,14 +22,17 @@ class preload extends Phaser.Scene {
 
 
         //load main menu assets & sounds
-        this.load.video('MainMenuIntro','assets/MainMenuIntro.mp4')
+        this.load.video('MainMenuIntro','assets/Intros/MainMenuIntro.mp4')
         //  Once space is hit send to PlayIntro1 scene to begin game
 
+        //load dialogbox intro scene
+        this.load.image('IntroDialogue', 'asset/IntroDialogue/dialogbox.png')
+
         //load PlayIntro1 assets & sounds
-        this.load.video('PlayIntro1', 'assets/PlayIntro1.mp4')
+        this.load.video('PlayIntro1', 'assets/Intros/PlayIntro1.mp4')
         
         //load PlayIntro2 assets & sounds
-        this.load.video('PlayIntro2', 'assets/PlayIntro2.mp4')
+        this.load.video('PlayIntro2', 'assets/Intros/PlayIntro2.mp4')
 
         //load PlayIntro3 assets & sounds
 
@@ -40,11 +43,8 @@ class preload extends Phaser.Scene {
         this.load.tilemapTiledJSON('map', 'assets/SeverenceMap.json')
 
         //load spritesheets
-        this.load.spritesheet('playerIdle','assets/Office_Boss_Idle.png', {frameWidth: 32, frameHeight: 32})
-        this.load.spritesheet('playerWalk','assets/Office_Boss_Walk.png', {frameWidth: 32, frameHeight: 32})
-
-
-
+        this.load.spritesheet('playerIdle','assets/OfficeWorker/Office_Boss_Idle.png', {frameWidth: 32, frameHeight: 32})
+        this.load.spritesheet('playerWalk','assets/OfficeWorker/Office_Boss_Walk.png', {frameWidth: 32, frameHeight: 32})
 
         //load in game sounds
         //this.load.audio('SAMPLE', 'assets/SAMPLE.MP3')        
