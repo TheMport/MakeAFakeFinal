@@ -25,9 +25,6 @@ class preload extends Phaser.Scene {
         this.load.video('MainMenuIntro','assets/Intros/MainMenuIntro.mp4')
         //  Once space is hit send to PlayIntro1 scene to begin game
 
-        //load dialogbox intro scene
-        this.load.image('IntroDialogue', 'asset/IntroDialogue/dialogbox.png')
-
         //load PlayIntro1 assets & sounds
         this.load.video('PlayIntro1', 'assets/Intros/PlayIntro1.mp4')
         

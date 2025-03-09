@@ -1,173 +1,121 @@
 class Talking extends Phaser.Scene {
     constructor() {
-        super("Talking")
+        super("Talking");
     }
 
-    init() {
-        // dialog constants
-        this.DBOX_X = 0			        // dialog box x-position
-        this.DBOX_Y = 400			    // dialog box y-position
-        this.DBOX_FONT = 'yellow_font'	    // dialog box font key
+    preload() {
+        // Load the font using the FontFace API
+        let pixelFont = new FontFace('PixelFont', 'url(assets/fonts/pixel.ttf)');
+        pixelFont.load().then((font) => {
+            document.fonts.add(font);
+            console.log("Pixel font loaded!");
+        });
 
-        this.TEXT_X = 50			    // text w/in dialog box x-position
-        this.TEXT_Y = 445			    // text w/in dialog box y-position
-        this.TEXT_SIZE = 32		        // text font size (in pixels)
-        this.TEXT_MAX_WIDTH = 715	    // max width of text within box
+        // Load dialogue JSON data
+        this.load.json('dialog', 'assets/json/dialog.json');
 
-        this.NEXT_TEXT = '*SPACE*'	    // text to display for next prompt
-        this.NEXT_X = 775			    // next text prompt x-position
-        this.NEXT_Y = 574			    // next text prompt y-position
-
-        this.LETTER_TIMER = 10		    // # ms each letter takes to "type" onscreen
-
-        // dialog variables
-        this.dialogConvo = 0			// current "conversation"
-        this.dialogLine = 0			    // current line of conversation
-        this.dialogSpeaker = null		// current speaker
-        this.dialogLastSpeaker = null	// last speaker
-        this.dialogTyping = false		// flag to lock player input while text is "typing"
-        this.dialogText = null			// the actual dialog text
-        this.nextText = null			// player prompt text to continue typing
-
-        // character variables
-        this.tweenDuration = 500        // character in/out tween duration
-
-        this.OFFSCREEN_X = -500         // x,y coordinates used to place characters offscreen
-        this.OFFSCREEN_Y = 1000
     }
 
     create() {
-        // parse dialog from JSON file
-        this.dialog = this.cache.json.get('dialog')
-        //console.log(this.dialog)
+        console.log("Talking scene started!");
 
-        // add dialog box sprite
-        this.dialogbox = this.add.sprite(this.DBOX_X, this.DBOX_Y, 'dialogbox').setOrigin(0)
+// Dialog Box Constants
+// Dialog Box Constants
+this.TEXT_X = 250;  // Align text to start from the left side
+this.TEXT_Y = this.scale.height / 2 - 70;  // Slightly above center
 
-        // initialize dialog text objects (with no text)
-        this.dialogText = this.add.bitmapText(this.TEXT_X, this.TEXT_Y, this.DBOX_FONT, '', this.TEXT_SIZE)
-        this.nextText = this.add.bitmapText(this.NEXT_X, this.NEXT_Y, this.DBOX_FONT, '', this.TEXT_SIZE)
+this.NEXT_X = this.scale.width / 1.5;  // Centered horizontally
+this.NEXT_Y = this.scale.height - 80; // Positioned at the bottom
 
-        // ready the character dialog images offscreen
-        this.Britney = this.add.sprite(this.OFFSCREEN_X, this.DBOX_Y+8, 'Britney').setOrigin(0, 1)
-        this.Ana = this.add.sprite(this.OFFSCREEN_X, this.DBOX_Y+8, 'Ana').setOrigin(0, 1)
-        this.Giselle = this.add.sprite(this.OFFSCREEN_X, this.DBOX_Y+8, 'Giselle').setOrigin(0, 1)
+this.TEXT_SIZE = "32px";
+this.TEXT_MAX_WIDTH = 800; // Adjust width for better text wrapping
+this.LETTER_TIMER = 30;
+this.NEXT_TEXT = "Press Space To Continue";
 
+        
 
-        // input
-        cursors = this.input.keyboard.createCursorKeys()
+        // Dialog Tracking Variables
+        this.dialogConvo = 0;
+        this.dialogLine = 0;
+        this.dialogTyping = false;
 
-        // start first dialog conversation
-        this.typeText()        
+        // Load dialogue JSON data
+        this.dialog = this.cache.json.get('dialog');
+
+        // Create text objects
+        this.dialogText = this.add.text(this.TEXT_X, this.TEXT_Y, "", {
+            fontFamily: "PixelFont",
+            fontSize: this.TEXT_SIZE,
+            color: "#ffffff",
+            wordWrap: { width: this.TEXT_MAX_WIDTH }
+        });
+
+        this.nextText = this.add.text(this.NEXT_X, this.NEXT_Y, "", {
+            fontFamily: "PixelFont",
+            fontSize: this.TEXT_SIZE,
+            color: "#ffffff"
+        }).setOrigin(1);
+
+        // Handle input
+        this.cursors = this.input.keyboard.createCursorKeys();
+
+        // Start first dialogue
+        this.typeText();
     }
 
     update() {
-        // check for spacebar press
-        if(Phaser.Input.Keyboard.JustDown(cursors.space) && !this.dialogTyping) {
-            this.typeText() // trigger dialog
+        if (Phaser.Input.Keyboard.JustDown(this.cursors.space) && !this.dialogTyping) {
+            this.typeText();
         }
     }
 
     typeText() {
-        // lock input while typing
-        this.dialogTyping = true
-
-        // clear text
-        this.dialogText.text = ''
-        this.nextText.text = ''
-
-        /* JSON dialog structure: 
-            - each array within the main JSON array is a "conversation"
-            - each object within a "conversation" is a "line"
-            - each "line" can have 3 properties: 
-                1. a speaker (required)
-                2. the dialog text (required)
-                3. an (optional) flag indicating if this speaker is new
-        */
-
-        // make sure there are lines left to read in this convo, otherwise jump to next convo
-        if(this.dialogLine > this.dialog[this.dialogConvo].length - 1) {
-            this.dialogLine = 0
-            // I increment the conversation count here...
-            // ..but you could create logic to exit if each conversation was self-contained
-            this.dialogConvo++
+        if (!this.dialog || this.dialogConvo >= this.dialog.length) {
+            console.log("End of Conversations");
+            this.scene.start("PlayMain");
+            return;
         }
-        
-        // make sure we haven't run out of conversations...
-        if(this.dialogConvo >= this.dialog.length) {
-            // here I'm exiting the final conversation to return to the title...
-            // ...but you could add alternate logic if needed
-            console.log('End of Conversations')
-            // tween out prior speaker's image
-            if(this.dialogLastSpeaker) {
-                this.tweens.add({
-                    targets: this[this.dialogLastSpeaker],
-                    x: this.OFFSCREEN_X,
-                    duration: this.tweenDuration,
-                    ease: 'Linear',
-                    onComplete: () => {
-                        this.scene.start('titleScene')
-                    }
-                })
-            }
-            // make text box invisible
-            this.dialogbox.visible = false
 
-        } else {
-            // if not, set current speaker
-            this.dialogSpeaker = this.dialog[this.dialogConvo][this.dialogLine]['speaker']
-            // check if there's a new speaker (for exit/enter animations)
-            if(this.dialog[this.dialogConvo][this.dialogLine]['newSpeaker']) {
-                // tween out prior speaker's image
-                if(this.dialogLastSpeaker) {
-                    this.tweens.add({
-                        targets: this[this.dialogLastSpeaker],
-                        x: this.OFFSCREEN_X,
-                        duration: this.tweenDuration,
-                        ease: 'Linear'
-                    })
+        let convo = this.dialog[this.dialogConvo];
+
+        if (this.dialogLine >= convo.length) {
+            this.dialogLine = 0;
+            this.dialogConvo++;
+
+            if (this.dialogConvo >= this.dialog.length) {
+                console.log("No more conversations, exiting...");
+                this.scene.start("PlayMain");
+                return;
+            }
+        }
+
+        let lineData = convo[this.dialogLine];
+        let speaker = lineData.speaker;
+        let text = `${speaker.toUpperCase()}: ${lineData.dialog}`;
+
+        // Hide previous text and reset prompt
+        this.dialogTyping = true;
+        this.dialogText.setText("");
+        this.nextText.setText("");
+
+        // Typewriter effect
+        let currentChar = 0;
+        let textTimer = this.time.addEvent({
+            delay: this.LETTER_TIMER,
+            repeat: text.length - 1,
+            callback: () => {
+                this.dialogText.text += text[currentChar];
+                currentChar++;
+
+                if (textTimer.getRepeatCount() === 0) {
+                    this.nextText.setText(this.NEXT_TEXT);
+                    this.dialogTyping = false;
+                    textTimer.destroy();
                 }
-                // tween in new speaker's image
-                this.tweens.add({
-                    targets: this[this.dialogSpeaker],
-                    x: this.DBOX_X + 50,
-                    duration: this.tweenDuration,
-                    ease: 'Linear'
-                })
-            }
+            },
+            callbackScope: this
+        });
 
-            // build dialog (concatenate speaker + colon + line of text)
-            this.combinedDialog = 
-                this.dialog[this.dialogConvo][this.dialogLine]['speaker'].toUpperCase() 
-                + ': ' 
-                + this.dialog[this.dialogConvo][this.dialogLine]['dialog']
-
-            // create a timer to iterate through each letter in the dialog text
-            let currentChar = 0
-            this.textTimer = this.time.addEvent({
-                delay: this.LETTER_TIMER,
-                repeat: this.combinedDialog.length - 1,
-                callback: () => { 
-                    // concatenate next letter from dialogLines
-                    this.dialogText.text += this.combinedDialog[currentChar]
-                    // advance character position
-                    currentChar++
-                    // check if timer has exhausted its repeats 
-                    // (necessary since Phaser 3 no longer seems to have an onComplete event)
-                    if(this.textTimer.getRepeatCount() == 0) {
-                        // show prompt for more text
-                        this.nextText = this.add.bitmapText(this.NEXT_X, this.NEXT_Y, this.DBOX_FONT, this.NEXT_TEXT, this.TEXT_SIZE).setOrigin(1)
-                        this.dialogTyping = false   // un-lock input
-                        this.textTimer.destroy()    // destroy timer
-                    }
-                },
-                callbackScope: this // keep Scene context
-            })
-            
-            // final cleanup before next iteration
-            this.dialogText.maxWidth = this.TEXT_MAX_WIDTH  // set bounds on dialog
-            this.dialogLine++                               // increment dialog line
-            this.dialogLastSpeaker = this.dialogSpeaker     // set past speaker
-        }
+        this.dialogLine++;
     }
 }

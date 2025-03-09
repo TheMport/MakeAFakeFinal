@@ -1,0 +1,109 @@
+[
+    [
+        {
+            "speaker": "???",
+            "dialog": "Who are you?",
+            "newSpeaker": "true"
+        },
+        {
+            "speaker": "You",
+            "dialog": "I... I don’t know.",
+            "newSpeaker": "true"
+        },
+        {
+            "speaker": "???",
+            "dialog": "First name will do."
+        },
+        {
+            "speaker": "You",
+            "dialog": "...Uh—um. Mark."
+        },
+        {
+            "speaker": "???",
+            "dialog": "Good. Thank you, Mark."
+        },
+        {
+            "speaker": "???",
+            "dialog": "In which U.S. state or territory were you born?",
+            "newSpeaker": "true"
+        },
+        {
+            "speaker": "You",
+            "dialog": "I—I don’t... I don’t know. I don’t remember.",
+            "newSpeaker": "true"
+        },
+        {
+            "speaker": "???",
+            "dialog": "That’s okay, Mark. You’re doing just fine."
+        },
+        {
+            "speaker": "???",
+            "dialog": "Do you know why you’re here?",
+            "newSpeaker": "true"
+        },
+        {
+            "speaker": "You",
+            "dialog": "Here? As in... this room?"
+        },
+        {
+            "speaker": "???",
+            "dialog": "Here, Mark. In this job."
+        },
+        {
+            "speaker": "You",
+            "dialog": "I—I don’t know. I don’t even know where I am."
+        },
+        {
+            "speaker": "???",
+            "dialog": "That’s okay. You will."
+        },
+        {
+            "speaker": "???",
+            "dialog": "What is the purpose of your employment?",
+            "newSpeaker": "true"
+        },
+        {
+            "speaker": "You",
+            "dialog": "My... what? What does that mean?"
+        },
+        {
+            "speaker": "???",
+            "dialog": "You are employed here, Mark. What is the purpose of your employment?"
+        },
+        {
+            "speaker": "You",
+            "dialog": "I—I don’t know."
+        }
+    ],
+    [
+        {
+            "speaker": "???",
+            "dialog": "Would you like to proceed?",
+            "newSpeaker": "true"
+        },
+        {
+            "speaker": "You",
+            "dialog": "Proceed with what? Do I have a choice?"
+        },
+        {
+            "speaker": "???",
+            "dialog": "You always have a choice. Would you like to proceed?"
+        },
+        {
+            "speaker": "You",
+            "dialog": "I... I don’t know what’s happening."
+        },
+        {
+            "speaker": "???",
+            "dialog": "Would you like to proceed, Mark?"
+        },
+        {
+            "speaker": "You",
+            "dialog": "...Yes."
+        },
+        {
+            "speaker": "???",
+            "dialog": "Good. Let’s continue."
+        }
+    ]
+]

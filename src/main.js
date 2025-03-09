@@ -18,10 +18,8 @@ let config = {
             }
         }
     },
-    //scene: [preload,mainMenu,PlayIntro1,PlayIntro2,PlayMain]
-    scene: [PlayMain]
+    scene: [preload,mainMenu,PlayIntro1,Talking,PlayMain]
 }
-
 
 // define game
 let game = new Phaser.Game(config)

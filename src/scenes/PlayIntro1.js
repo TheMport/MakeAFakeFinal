@@ -12,7 +12,7 @@ class PlayIntro1 extends Phaser.Scene {
 
         video.on('complete', () => {
             console.log('PlayIntro1 video finished.') // debug message in case video doesn't play again
-            this.scene.start('PlayIntro2')
+            this.scene.start('Talking')
         })
     }
 }
