@@ -43,8 +43,8 @@ class preload extends Phaser.Scene {
         this.load.tilemapTiledJSON("map", 'assets/SeverenceMap.json')
 
         //load spritesheets
-        this.load.spritesheet('playerIdle','assets/Office_Boss_Idle.png', {frameWidth: 32, frameHeight: 32})
-        this.load.spritesheet('playerWalk','assets/Office_Boss_Walk.png', {frameWidth: 32, frameHeight: 32})
+        this.load.spritesheet("playerIdle",'assets/Office_Boss_Idle.png', {frameWidth: 32, frameHeight: 32})
+        this.load.spritesheet("playerWalk",'assets/Office_Boss_Walk.png', {frameWidth: 32, frameHeight: 32})
 
 
 
@@ -56,8 +56,6 @@ class preload extends Phaser.Scene {
 
     }
     create() { 
-
-
 
         this.scene.start('mainMenu')
         
