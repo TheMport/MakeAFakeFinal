@@ -8,13 +8,21 @@ class PlayMain extends Phaser.Scene {
         //load PlayMain assets & sounds
         const  map = this.add.tilemap("map")
         const tileset = map.addTilesetImage("Room_Builder_Office_32x32","gameTileset")    //adjust to tilesheet name when i get it
-        const walkableLayer = map.createLayer("Floors", gameTileset)
-        const wallLayer = map.createLater("Walls", gameTileset)
+        const walkableLayer = map.createLayer("Floors", tileset)
+        const wallLayer = map.createLayer("Walls", tileset)
+        const wallBounds = map.getObjectLayer("WallBounds") //get wall bounds from tilemap
+
+
+
+        
+        //this.physics.add.collider(player, wallBounds)
+
+
 
         //PlayMain load objects
 
         //Player character sprite and animations
-        this.player = this.physics.add.sprite(x,y, 'playerIdle')
+        this.player = this.physics.add.sprite(1,1, 'playerIdle')
 
         this.anims.create({
             key:'idle',
@@ -34,11 +42,19 @@ class PlayMain extends Phaser.Scene {
 
 
         //add camera and collidable walls 
-
+        this.camera.main.startFollow(this.player)
+        this.camera.main.setZoom(2)
 
         //add player movement and controls
         this.cursors = this.input.keyboard.createCursorKeys()
+
+                //set collision for wall layer
+        wallBounds.setCollisionByProperty({collides:true})
+        wallLayer.setCollisionByProperty({collides:true})
+        this.physics.add.collider(player, wallBounds)
     }
+
+
 
     update() {
 

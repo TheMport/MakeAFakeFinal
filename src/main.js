@@ -18,7 +18,8 @@ let config = {
             }
         }
     },
-    scene: [preload,mainMenu,PlayIntro1,PlayIntro2,PlayIntro3,Talking,PlayMain]
+    //scene: [preload,mainMenu,PlayIntro1,PlayIntro2,PlayMain]
+    scene: [PlayMain]
 }
 
 

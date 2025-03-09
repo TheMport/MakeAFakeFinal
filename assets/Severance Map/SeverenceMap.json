@@ -73,7 +73,7 @@
         {
          "draworder":"topdown",
          "id":3,
-         "name":"Walls",
+         "name":"WallBounds",
          "objects":[
                 {
                  "height":101.581783619185,
@@ -248,7 +248,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":23,
+ "nextobjectid":25,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
