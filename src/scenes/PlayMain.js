@@ -9,11 +9,11 @@ class PlayMain extends Phaser.Scene {
         //load PlayMain assets & sounds
         //load tiles & tilemap
         this.load.image("gameTileset", 'assets/GameTileset/1_Room_Builder_Office/Room_Builder_Office_32x32.png')
-        this.load.tilemapTiledJSON("map", 'assets/SeverenceMap.json')
+        this.load.tilemapTiledJSON("map", 'assets/SeveranceMap/SeverenceMap.json')
 
         //load spritesheets
-        this.load.spritesheet("playerIdle",'assets/Office_Boss_Idle.png', {frameWidth: 32, frameHeight: 32})
-        this.load.spritesheet("playerWalk",'assets/Office_Boss_Walk.png', {frameWidth: 32, frameHeight: 32})
+        this.load.spritesheet("playerIdle",'assets/OfficeWorker/Office_Boss_Idle.png', {frameWidth: 32, frameHeight: 32})
+        this.load.spritesheet("playerWalk",'assets/OfficeWorker/Office_Boss_Walk.png', {frameWidth: 32, frameHeight: 32})
 
     }
     create() {
