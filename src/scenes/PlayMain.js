@@ -11,14 +11,18 @@ class PlayMain extends Phaser.Scene {
         //load PlayMain assets & sounds
         //load tiles & tilemap
         this.load.image("gameTileset", 'assets/GameTileset/1_Room_Builder_Office/Room_Builder_Office_32x32.png')
-        this.load.tilemapTiledJSON("map", 'assets/SeveranceMap/SeveranceMap1.json')
+        this.load.tilemapTiledJSON("map", 'assets/SeveranceMap/SeveranceMap.json')
         //console.log(map)
 
 
         //load spritesheets
         this.load.spritesheet("playerIdle",'assets/OfficeWorker/Office_Boss_Idle.png', {frameWidth: 32, frameHeight: 32})
         this.load.spritesheet("playerWalk",'assets/OfficeWorker/Office_Boss_Walk.png', {frameWidth: 32, frameHeight: 32})
-        this.load.spritesheet("rotatingKey",'assets/keyAsset/key_32x32_24f.png', {frameWidth: 32, frameHeight: 32})
+
+        this.load.spritesheet("rotatingKey1",'assets/keyAsset/key_32x32_24f.png', {frameWidth: 32, frameHeight: 32})
+        this.load.spritesheet("rotatingKey2",'assets/keyAsset/key_32x32_24f.png', {frameWidth: 32, frameHeight: 32})
+        this.load.spritesheet("rotatingKey3",'assets/keyAsset/key_32x32_24f.png', {frameWidth: 32, frameHeight: 32})
+
 
     }
     create() {
@@ -31,10 +35,16 @@ class PlayMain extends Phaser.Scene {
         const wallLayer = map.createLayer("Walls", tileset)
         const wallBoundsLayer = map.getObjectLayer("WallBounds") //get wall bounds from tilemap
 
+        // Enable collision for walls
+        //BROKEN COLLISION NEEDS REPAIR
+        wallLayer.setCollisionByProperty({ collides: true })
+
         //PlayMain load objects
 
         //Player character sprite and animations
-        this.player = this.physics.add.sprite(64,544, 'playerIdle')
+        this.player = this.physics.add.sprite(1600,1568, 'playerIdle')
+
+
         //this.player.collider = world:wallRectangleCollider
 
         this.anims.create({
@@ -54,16 +64,36 @@ class PlayMain extends Phaser.Scene {
         this.player.play('idle')
 
         //add rotating key sprite and animations
-        this.keyNotCollected = this.physics.add.sprite(1184,128, 'rotatingKey')
+        this.keyNotCollected1 = this.physics.add.sprite(64,1312, 'rotatingKey1')
+        this.keyNotCollected2 = this.physics.add.sprite(1792,2912, 'rotatingKey2')
+        this.keyNotCollected3 = this.physics.add.sprite(3136,1344, 'rotatingKey3')
+
 
         this.anims.create({
-            key:'rotate',
-            frames: this.anims.generateFrameNumbers('rotatingKey', {start: 0, end:23}),
+            key:'rotatingKey1',
+            frames: this.anims.generateFrameNumbers('rotatingKey1', {start: 0, end:23}),
             frameRate:12,
             repeat: -1
         })
 
-        this.keyNotCollected.play('rotate')
+        this.anims.create({
+            key:'rotatingKey2',
+            frames: this.anims.generateFrameNumbers('rotatingKey2', {start: 0, end:23}),
+            frameRate:12,
+            repeat: -1
+        })
+
+        this.anims.create({
+            key:'rotatingKey3',
+            frames: this.anims.generateFrameNumbers('rotatingKey3', {start: 0, end:23}),
+            frameRate:12,
+            repeat: -1
+        })
+
+        this.keyNotCollected1.play('rotatingKey1')
+        this.keyNotCollected2.play('rotatingKey2')
+        this.keyNotCollected3.play('rotatingKey3')
+
 
 
         //add camera and collidable walls 
@@ -71,14 +101,33 @@ class PlayMain extends Phaser.Scene {
         this.cameras.main.setZoom(2.2)
 
         
-        // Enable collision for player on the tilemap layer for walls
 
+        //BROKEN COLLISION NEEDS REPAIR
         this.physics.add.collider(this.player, wallLayer)
-        //need to add list of all tiles used for bounds
-        wallLayer.setCollisionBetween(149, 151)
+        //this.player.setCollideWorldBounds(true)
+        
+
+        // Enable collision for player on the tilemap layer for walls
+        
+        this.physics.add.collider(this.player, wallLayer)
+        wallLayer.setCollisionBetween(1, 3)
+        wallLayer.setCollisionBetween(4, 4)
+        wallLayer.setCollisionBetween(10, 12)
+        wallLayer.setCollisionBetween(23, 25)
+        wallLayer.setCollisionBetween(33, 34)
+        wallLayer.setCollisionBetween(39, 41)
+        wallLayer.setCollisionBetween(49, 49)
+        wallLayer.setCollisionBetween(55, 57)
+        wallLayer.setCollisionBetween(59, 59)
+        wallLayer.setCollisionBetween(177, 177)
+        wallLayer.setCollisionBetween(183, 183)
+        wallLayer.setCollisionBetween(193, 193)
+        wallLayer.setCollisionBetween(200, 200)
+        //BROKEN COLLISION NEEDS REPAIR END OF BROKEN COLLISION
 
 
         // Key HUD
+        // make it work with camera
         console.log(this.cameras.main.scrollX)
         console.log(this.cameras.main.scrollY)
         this.keyCollectedText = this.add.text(this.cameras.main.scrollX *2.2 + this.cameras.main.displayWidth *2.2 / 2,this.cameras.main.scrollY*2.2 + 16, 'Keys Collected: 0', {
