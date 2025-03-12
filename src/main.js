@@ -19,6 +19,7 @@ let config = {
         }
     },
     scene: [preload,mainMenu,PlayIntro1,Talking,PlayMain]
+    //scene: [PlayMain]
 }
 
 // define game

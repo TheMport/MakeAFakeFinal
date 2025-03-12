@@ -1,6 +1,8 @@
 class PlayMain extends Phaser.Scene {
     constructor() {
         super('PlayMain')
+
+        this.keyCollected = 0
     }
 
     preload() {
@@ -14,6 +16,7 @@ class PlayMain extends Phaser.Scene {
         //load spritesheets
         this.load.spritesheet("playerIdle",'assets/OfficeWorker/Office_Boss_Idle.png', {frameWidth: 32, frameHeight: 32})
         this.load.spritesheet("playerWalk",'assets/OfficeWorker/Office_Boss_Walk.png', {frameWidth: 32, frameHeight: 32})
+        this.load.spritesheet("rotatingKey",'assets/keyAsset/key_32x32_24f.png', {frameWidth: 32, frameHeight: 32})
 
     }
     create() {
@@ -47,10 +50,22 @@ class PlayMain extends Phaser.Scene {
 
         this.player.play('idle')
 
+        //add rotating key sprite and animations
+        this.keyNotCollected = this.physics.add.sprite(1184,128, 'rotatingKey')
+
+        this.anims.create({
+            key:'rotate',
+            frames: this.anims.generateFrameNumbers('rotatingKey', {start: 0, end:23}),
+            frameRate:12,
+            repeat: -1
+        })
+
+        this.keyNotCollected.play('rotate')
+
 
         //add camera and collidable walls 
         this.cameras.main.startFollow(this.player)
-        this.cameras.main.setZoom(2)
+        this.cameras.main.setZoom(2.2)
 
         
         // Enable collision for player on the tilemap layer for walls
@@ -59,9 +74,14 @@ class PlayMain extends Phaser.Scene {
         //need to add list of all tiles used for bounds
         wallLayer.setCollisionBetween(149, 151)
 
-        //add keys (possibly RNG?)
 
-        //add key HUD
+        // Key HUD
+        this.keyCollectedText = this.add.text(this.sys.game.config.width / 2, 16, 'Keys Collected: 0', {
+            fontSize: '32px',
+            fill: '#FFF'
+        }).setOrigin(0.5, 0).setScrollFactor(0)
+
+        this.physics.add.overlap(this.player, this.keyNotCollected, this.collectKey, null, this)
 
         //add timer if fail game over
 
@@ -105,30 +125,17 @@ class PlayMain extends Phaser.Scene {
             !this.cursors.down.isDown){
             this.player.play('idle')
         }
-
-
-        //player collecting keys
-
         
 
     }
 
+    collectKey(player, key) {
+        this.keyCollected++
+        this.keyCollectedText.setText(`Keys Collected: ${this.keyCollected}`)
+        key.destroy()
+        console.log(`Key Collected: ${this.keyCollected}`)
+    }
+    
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-};
+}
