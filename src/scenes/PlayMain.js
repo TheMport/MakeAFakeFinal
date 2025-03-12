@@ -11,7 +11,9 @@ class PlayMain extends Phaser.Scene {
         //load PlayMain assets & sounds
         //load tiles & tilemap
         this.load.image("gameTileset", 'assets/GameTileset/1_Room_Builder_Office/Room_Builder_Office_32x32.png')
-        this.load.tilemapTiledJSON("map", 'assets/SeveranceMap/SeverenceMap.json')
+        this.load.tilemapTiledJSON("map", 'assets/SeveranceMap/SeveranceMap1.json')
+        //console.log(map)
+
 
         //load spritesheets
         this.load.spritesheet("playerIdle",'assets/OfficeWorker/Office_Boss_Idle.png', {frameWidth: 32, frameHeight: 32})
@@ -23,6 +25,7 @@ class PlayMain extends Phaser.Scene {
 
         //load PlayMain assets & sounds
         const  map = this.add.tilemap("map")
+        console.log(map)
         const tileset = map.addTilesetImage("Room_Builder_Office_32x32","gameTileset")    //adjust to tilesheet name when i get it
         const floorLayer = map.createLayer("Floors", tileset)
         const wallLayer = map.createLayer("Walls", tileset)
@@ -76,10 +79,13 @@ class PlayMain extends Phaser.Scene {
 
 
         // Key HUD
-        this.keyCollectedText = this.add.text(this.sys.game.config.width / 2, 16, 'Keys Collected: 0', {
+        console.log(this.cameras.main.scrollX)
+        console.log(this.cameras.main.scrollY)
+        this.keyCollectedText = this.add.text(this.cameras.main.scrollX *2.2 + this.cameras.main.displayWidth *2.2 / 2,this.cameras.main.scrollY*2.2 + 16, 'Keys Collected: 0', {
             fontSize: '32px',
             fill: '#FFF'
-        }).setOrigin(0.5, 0).setScrollFactor(0)
+        })
+        console.log(this.keyCollectedText)
 
         this.physics.add.overlap(this.player, this.keyNotCollected, this.collectKey, null, this)
 

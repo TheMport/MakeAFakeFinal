@@ -14,9 +14,9 @@ class preload extends Phaser.Scene {
         
 
         //simulate load time
-        this.load.on('progress', (percent) => {
-            loadingBar.fillRect(0, this.game.renderer.height / 2, this.game.renderer.width * percent, 50)
-        })
+        //this.load.on('progress', (percent) => {
+        //    loadingBar.fillRect(0, this.game.renderer.height / 2, this.game.renderer.width * percent, 50)
+        //s})
 
         //preview aike mp4 intro
 
@@ -32,7 +32,8 @@ class preload extends Phaser.Scene {
         this.load.video('PlayIntro2', 'assets/Intros/PlayIntro2.mp4')
 
         //load PlayIntro3 assets & sounds
-
+        this.load.image("gameTileset", 'assets/GameTileset/1_Room_Builder_Office/Room_Builder_Office_32x32.png')
+        this.load.tilemapTiledJSON("map", 'assets/SeveranceMap/SeveranceMap1.json')
 
 
     }
