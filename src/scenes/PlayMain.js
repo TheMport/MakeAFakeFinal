@@ -16,8 +16,8 @@ class PlayMain extends Phaser.Scene {
 
 
         //load spritesheets
-        this.load.spritesheet("playerIdle",'assets/OfficeWorker/Office_Boss_Idle.png', {frameWidth: 32, frameHeight: 32})
-        this.load.spritesheet("playerWalk",'assets/OfficeWorker/Office_Boss_Walk.png', {frameWidth: 32, frameHeight: 32})
+        this.load.spritesheet("playerIdle",'assets/OfficeWorker/Office_Boss_Idle.png', {frameWidth: 45, frameHeight: 45})
+        this.load.spritesheet("playerWalk",'assets/OfficeWorker/Office_Boss_Walk.png', {frameWidth: 45, frameHeight: 45})
 
         this.load.spritesheet("rotatingKey1",'assets/keyAsset/key_32x32_24f.png', {frameWidth: 32, frameHeight: 32})
         this.load.spritesheet("rotatingKey2",'assets/keyAsset/key_32x32_24f.png', {frameWidth: 32, frameHeight: 32})
