@@ -33,17 +33,46 @@ class PlayMain extends Phaser.Scene {
         const tileset = map.addTilesetImage("Room_Builder_Office_32x32","gameTileset")    //adjust to tilesheet name when i get it
         const floorLayer = map.createLayer("Floors", tileset)
         const wallLayer = map.createLayer("Walls", tileset)
-        const wallBoundsLayer = map.getObjectLayer("WallBounds") //get wall bounds from tilemap
+
+
+        // If no property is set in Tiled, you can set all tiles to collide
+        if (!wallLayer.layer.properties || !wallLayer.layer.properties.find(p => p.name === "collides")) {
+            wallLayer.setCollisionByExclusion([-1]);  // Make all tiles collide except empty ones
+        }
+
+        // Get player spawn point from object layer if it exists
+        let playerX = 1600;
+        let playerY = 1568;
+        
+        const spawnPoint = map.getObjectLayer('PlayerSpawn');
+        if (spawnPoint && spawnPoint.objects && spawnPoint.objects.length > 0) {
+            playerX = spawnPoint.objects[0].x;
+            playerY = spawnPoint.objects[0].y;
+        }
+
 
         // Enable collision for walls
         //BROKEN COLLISION NEEDS REPAIR
         wallLayer.setCollisionByProperty({ collides: true })
 
+        // Debug collision detection
+        this.physics.world.createDebugGraphic();
+        wallLayer.renderDebug(this.add.graphics(), {
+        tileColor: null,
+        collidingTileColor: new Phaser.Display.Color(255, 0, 0, 150),
+});
         //PlayMain load objects
 
         //Player character sprite and animations
-        this.player = this.physics.add.sprite(1600,1568, 'playerIdle')
+        // Initialize player
+        this.player = this.physics.add.sprite(1600, 1568, 'playerIdle')
 
+        this.physics.world.enable(this.player)
+        this.player.body.setSize(32, 32)
+        this.player.body.setOffset(6, 14)
+
+
+        this.physics.add.collider(this.player, wallLayer)
 
         //this.player.collider = world:wallRectangleCollider
 
@@ -94,49 +123,41 @@ class PlayMain extends Phaser.Scene {
         this.keyNotCollected2.play('rotatingKey2')
         this.keyNotCollected3.play('rotatingKey3')
 
+        this.keysGroup = this.physics.add.group([
+            this.keyNotCollected1,
+            this.keyNotCollected2,
+            this.keyNotCollected3
+        ]);
 
 
         //add camera and collidable walls 
         this.cameras.main.startFollow(this.player)
         this.cameras.main.setZoom(2.2)
 
-        
-
-        //BROKEN COLLISION NEEDS REPAIR
-        this.physics.add.collider(this.player, wallLayer)
-        //this.player.setCollideWorldBounds(true)
-        
-
-        // Enable collision for player on the tilemap layer for walls
-        
-        this.physics.add.collider(this.player, wallLayer)
-        wallLayer.setCollisionBetween(1, 3)
-        wallLayer.setCollisionBetween(4, 4)
-        wallLayer.setCollisionBetween(10, 12)
-        wallLayer.setCollisionBetween(23, 25)
-        wallLayer.setCollisionBetween(33, 34)
-        wallLayer.setCollisionBetween(39, 41)
-        wallLayer.setCollisionBetween(49, 49)
-        wallLayer.setCollisionBetween(55, 57)
-        wallLayer.setCollisionBetween(59, 59)
-        wallLayer.setCollisionBetween(177, 177)
-        wallLayer.setCollisionBetween(183, 183)
-        wallLayer.setCollisionBetween(193, 193)
-        wallLayer.setCollisionBetween(200, 200)
-        //BROKEN COLLISION NEEDS REPAIR END OF BROKEN COLLISION
 
 
         // Key HUD
         // make it work with camera
+
+        const cameraWidth = this.cameras.main.width;
+
         console.log(this.cameras.main.scrollX)
         console.log(this.cameras.main.scrollY)
         this.keyCollectedText = this.add.text(this.cameras.main.scrollX *2.2 + this.cameras.main.displayWidth *2.2 / 2,this.cameras.main.scrollY*2.2 + 16, 'Keys Collected: 0', {
             fontSize: '32px',
-            fill: '#FFF'
+            fill: '#FFF',
+            backgroundColor: '#000',
+            padding: {
+                x: 10,
+                y: 5
+            }
         })
         console.log(this.keyCollectedText)
 
-        this.physics.add.overlap(this.player, this.keyNotCollected, this.collectKey, null, this)
+        this.keyCollectedText.setScrollFactor(0)
+        this.keyCollectedText.setDepth(1000)
+
+        this.physics.add.overlap(this.player, this.keysGroup, this.collectKey, null, this)
 
         //add timer if fail game over
 
@@ -144,6 +165,19 @@ class PlayMain extends Phaser.Scene {
 
         //add player movement and controls
         this.cursors = this.input.keyboard.createCursorKeys()
+
+        // Optional: Debug graphics for collision visualization
+        if (this.physics.config.debug) {
+            const debugGraphics = this.add.graphics().setAlpha(0.7)
+            wallLayer.renderDebug(debugGraphics, {
+                tileColor: null,
+                collidingTileColor: new Phaser.Display.Color(255, 0, 0, 150),
+                faceColor: new Phaser.Display.Color(0, 255, 0, 150)
+            });
+        }
+    
+
+        
     }
 
 
@@ -189,8 +223,21 @@ class PlayMain extends Phaser.Scene {
         this.keyCollectedText.setText(`Keys Collected: ${this.keyCollected}`)
         key.destroy()
         console.log(`Key Collected: ${this.keyCollected}`)
+
+        // Optional: Add effect when key is collected
+        this.tweens.add({
+            targets: this.keyCollectedText,
+            scale: { from: 1.2, to: 1 },
+            duration: 300,
+            ease: 'Bounce.Out'
+        })
+        
+        // Check if all keys are collected
+        if (this.keyCollected === 3) {
+            console.log("All keys collected!")
     }
     
 
 
+    }
 }
