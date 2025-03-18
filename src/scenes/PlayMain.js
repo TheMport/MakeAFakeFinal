@@ -169,7 +169,7 @@ class PlayMain extends Phaser.Scene {
 
         //add timer if fail game over
 
-        this.timeInSeconds = 10;
+        this.timeInSeconds = 1000;
         this.timerCountDown = this.add.text(cameraWidth/1.51,cameraHeight/3.2, 'Seconds Remaining: '+this.timeInSeconds, {
             fontSize: `${adjustedFontSize}px`,
             fill: '#FFF',
@@ -280,6 +280,9 @@ class PlayMain extends Phaser.Scene {
         // Check if all keys are collected
         if (this.keyCollected === 3) {
             console.log("All keys collected!")
+            this.scene.start('escapeWin')
         }
     }
+
+
 }
