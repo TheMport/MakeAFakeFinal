@@ -1,3 +1,10 @@
+//// Name: Jennie Le & Miguel Comonfort
+// Game: Severance: Get To The OTC!
+// Completion Time: 
+// Physics system (for movement and collisions) +1
+// Animation manager (for sprite animations) +1
+// Tilemaps (for level design) +1
+
 'use strict'
 
 let config = {
