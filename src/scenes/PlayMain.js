@@ -3,16 +3,16 @@ class PlayMain extends Phaser.Scene {
         super('PlayMain')
 
         this.keyCollected = 0
+
     }
 
     preload() {
-        //Need to load in map assets in main scene otherwise it wont load
 
         //load PlayMain assets & sounds
         //load tiles & tilemap
         this.load.image("gameTileset", 'assets/GameTileset/1_Room_Builder_Office/Room_Builder_Office_32x32.png')
         this.load.tilemapTiledJSON("map", 'assets/SeveranceMap/SeveranceMap.json')
-        //console.log(map)
+
 
 
         //load spritesheets
@@ -35,12 +35,12 @@ class PlayMain extends Phaser.Scene {
         const wallLayer = map.createLayer("Walls", tileset)
 
 
-        // If no property is set in Tiled, you can set all tiles to collide
+        // Set up collision for walls
         if (!wallLayer.layer.properties || !wallLayer.layer.properties.find(p => p.name === "collides")) {
             wallLayer.setCollisionByExclusion([-1]);  // Make all tiles collide except empty ones
         }
 
-        // Get player spawn point from object layer if it exists
+        //player spawn according to our map
         let playerX = 1600;
         let playerY = 1568;
         
@@ -52,7 +52,6 @@ class PlayMain extends Phaser.Scene {
 
 
         // Enable collision for walls
-        //BROKEN COLLISION NEEDS REPAIR
         wallLayer.setCollisionByProperty({ collides: true })
 
         // Debug collision detection
@@ -64,7 +63,6 @@ class PlayMain extends Phaser.Scene {
         //PlayMain load objects
 
         //Player character sprite and animations
-        // Initialize player
         this.player = this.physics.add.sprite(1600, 1568, 'playerIdle')
 
         this.physics.world.enable(this.player)
@@ -74,7 +72,6 @@ class PlayMain extends Phaser.Scene {
 
         this.physics.add.collider(this.player, wallLayer)
 
-        //this.player.collider = world:wallRectangleCollider
 
         this.anims.create({
             key:'idle',
@@ -129,44 +126,75 @@ class PlayMain extends Phaser.Scene {
             this.keyNotCollected3
         ]);
 
-
-        //add camera and collidable walls 
+        // Camera setup
         this.cameras.main.startFollow(this.player)
-        this.cameras.main.setZoom(2.2)
 
+        
+       // Set the camera zoom
+       const cameraZoom = 2.2;
+       this.cameras.main.setZoom(cameraZoom)
 
-
-        // Key HUD
-        // make it work with camera
-
-        const cameraWidth = this.cameras.main.width;
+       // Get the camera dimensions to make work with zoom
+       const cameraWidth = this.cameras.main.width
+       const cameraHeight = this.cameras.main.height
+       
+         // Set the font size based on the camera zoom
+       const baseFontSize = 32;
+       const adjustedFontSize = Math.ceil(baseFontSize / cameraZoom)
+       
 
         console.log(this.cameras.main.scrollX)
         console.log(this.cameras.main.scrollY)
-        this.keyCollectedText = this.add.text(this.cameras.main.scrollX *2.2 + this.cameras.main.displayWidth *2.2 / 2,this.cameras.main.scrollY*2.2 + 16, 'Keys Collected: 0', {
-            fontSize: '32px',
+
+        this.keyCollectedText = this.add.text(cameraWidth/1.5,cameraHeight/3.4, 'Keys Collected: 0', {
+            fontSize: `${adjustedFontSize}px`,
             fill: '#FFF',
-            backgroundColor: '#000',
+            backgroundColor: '#00000080',
             padding: {
-                x: 10,
-                y: 5
+                x: Math.ceil(5 / cameraZoom),
+                y: Math.ceil(3 / cameraZoom)
             }
-        })
+        }).setOrigin(0).setScrollFactor(0).setDepth(100)
+        this.keyCollectedText.setScrollFactor(0)
+        this.keyCollectedText.setDepth(100)
+
+        this.keyCollectedText.setScale(1 / cameraZoom)
+
+
+        //debugging log
         console.log(this.keyCollectedText)
 
-        this.keyCollectedText.setScrollFactor(0)
-        this.keyCollectedText.setDepth(1000)
 
         this.physics.add.overlap(this.player, this.keysGroup, this.collectKey, null, this)
 
         //add timer if fail game over
 
-        //add timer HUD
+        this.timeInSeconds = 10;
+        this.timerCountDown = this.add.text(cameraWidth/1.51,cameraHeight/3.2, 'Seconds Remaining: '+this.timeInSeconds, {
+            fontSize: `${adjustedFontSize}px`,
+            fill: '#FFF',
+            backgroundColor: '#00000080',
+            padding: {
+                x: Math.ceil(5 / cameraZoom),
+                y: Math.ceil(3 / cameraZoom)
+            }
+        }).setOrigin(0).setScrollFactor(0).setDepth(100)
+
+        this.timerCountDown.setScale(1 / cameraZoom)
+        
+
+        this.timerEvent = this.time.addEvent({
+            delay: 1000,
+            callback: this.updateTimer,
+            callbackScope: this,
+            loop: true
+        });
+
 
         //add player movement and controls
         this.cursors = this.input.keyboard.createCursorKeys()
 
-        // Optional: Debug graphics for collision visualization
+        // Debug graphics for collision visualization
         if (this.physics.config.debug) {
             const debugGraphics = this.add.graphics().setAlpha(0.7)
             wallLayer.renderDebug(debugGraphics, {
@@ -218,26 +246,40 @@ class PlayMain extends Phaser.Scene {
 
     }
 
+        updateTimer() {
+            this.timeInSeconds--;
+            this.timerCountDown.setText('Time Remaining: ' + this.timeInSeconds);
+            
+            // When time runs out go to game over 
+            if (this.timeInSeconds <= 0) {
+                this.timerEvent.remove();
+                this.scene.start('GameOver')
+            }
+        }
+
+
     collectKey(player, key) {
         this.keyCollected++
         this.keyCollectedText.setText(`Keys Collected: ${this.keyCollected}`)
         key.destroy()
         console.log(`Key Collected: ${this.keyCollected}`)
 
-        // Optional: Add effect when key is collected
+        const originalScale = 1/this.cameras.main.zoom;
+
+
         this.tweens.add({
             targets: this.keyCollectedText,
-            scale: { from: 1.2, to: 1 },
+            scale: { from: originalScale *1.2, to: originalScale },
             duration: 300,
-            ease: 'Bounce.Out'
+            ease: 'Bounce.Out',
+            onComplete:() => {
+                this.keyCollectedText.setScale(originalScale)
+            }
         })
         
         // Check if all keys are collected
         if (this.keyCollected === 3) {
             console.log("All keys collected!")
-    }
-    
-
-
+        }
     }
 }
