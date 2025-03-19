@@ -1,0 +1,96 @@
+[
+    [
+        {
+            "speaker": "Mark",
+            "dialog": "....",
+            "newSpeaker": "true"
+        },
+        {
+            "speaker": "Mark",
+            "dialog": "Was I just... somewhere else?"
+        },
+        {
+            "speaker": "Mark",
+            "dialog": "I don’t remember walking in here."
+        },
+        {
+            "speaker": "Mark",
+            "dialog": "Okay... okay. Think."
+        },
+        {
+            "speaker": "Mark",
+            "dialog": "What’s the last thing I remember?"
+        },
+        {
+            "speaker": "Mark",
+            "dialog": "...Nothing. I don’t remember anything."
+        },
+        {
+            "speaker": "Mark",
+            "dialog": "No. No, that doesn’t make sense. I have to remember something."
+        },
+        {
+            "speaker": "Mark",
+            "dialog": "My name. I should know my name."
+        },
+        {
+            "speaker": "Mark",
+            "dialog": "...Mark. Yeah. Mark."
+        },
+        {
+            "speaker": "Mark",
+            "dialog": "Okay, that’s something."
+        },
+        {
+            "speaker": "Mark",
+            "dialog": "But where am I? What is this place?"
+        },
+        {
+            "speaker": "Mark",
+            "dialog": "An elevator. Right. But where is it going?"
+        },
+        {
+            "speaker": "Mark",
+            "dialog": "Did I get in here on my own? Or did someone put me here?"
+        },
+        {
+            "speaker": "Mark",
+            "dialog": "...I don’t remember pressing a button."
+        }
+    ],
+    [
+        {
+            "speaker": "Mark",
+            "dialog": "Alright... just breathe.",
+            "newSpeaker": "true"
+        },
+        {
+            "speaker": "Mark",
+            "dialog": "I can figure this out."
+        }
+    ],
+    [
+        {
+            "speaker": "Mark",
+            "dialog": "(The door won’t budge. Something is missing...)",
+            "newSpeaker": "true"
+        },
+        {
+            "speaker": "Mark",
+            "dialog": "Wait. There’s a keypad here."
+        },
+        {
+            "speaker": "Mark",
+            "dialog": "And this note... 'Access requires three keys.'"
+        },
+        {
+            "speaker": "Mark",
+            "dialog": "...Keys? Where the hell am I supposed to find those?"
+        },
+        {
+            "speaker": "Mark",
+            "dialog": "Alright. I guess I don’t have a choice. I need to look around."
+        }
+    ]
+]
+

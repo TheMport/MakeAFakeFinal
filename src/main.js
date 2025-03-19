@@ -38,9 +38,8 @@ let config = {
             }
         }
     },
-    scene: [preload,mainMenu,PlayIntro1,instructions,credits,Talking,PlayMain,GameOver,escapeWin]
+    scene: [preload,mainMenu,PlayIntro1,instructions,credits,Talking,Elevator,PlayMain,GameOver,escapeWin]
 }
-
 // define game
 let game = new Phaser.Game(config)
 

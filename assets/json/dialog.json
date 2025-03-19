@@ -73,9 +73,7 @@
         {
             "speaker": "You",
             "dialog": "I—I don’t know."
-        }
-    ],
-    [
+        },
         {
             "speaker": "???",
             "dialog": "Would you like to proceed?",
@@ -107,3 +105,4 @@
         }
     ]
 ]
+ 

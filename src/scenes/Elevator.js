@@ -1,52 +1,63 @@
-class Talking extends Phaser.Scene {
+class Elevator extends Phaser.Scene {
     constructor() {
-        super("Talking");
+        super("Elevator");
     }
 
     preload() {
-        // Load the font using the FontFace API
         let pixelFont = new FontFace('PixelFont', 'url(assets/fonts/pixel.ttf)');
         pixelFont.load().then((font) => {
             document.fonts.add(font);
             console.log("Pixel font loaded!");
         });
 
-        // Load dialogue JSON data
-        this.load.json('dialog', 'assets/json/dialog.json');
+        // ✅ Load Elevator Background Image
+        this.load.image('elevator', 'assets/otherImages/elevator.png');
 
-        // ✅ Load Ambient Background Music
+        // ✅ Load Elevator-Specific Dialogue JSON
+        this.load.json('elevatorDialog', 'assets/json/elevator.json');
+
+        // ✅ Load Ambient Background Audio
         this.load.audio('ambient', 'assets/Intros/Ambient.mp3');
     }
 
     create() {
-        console.log("Talking scene started!");
+        console.log("Elevator scene started!");
 
-        // ✅ Stop any previous sounds before playing this scene
+        // ✅ Stop Any Previous Audio Before Playing This Scene
         this.sound.stopAll();
 
-        // ✅ Play Ambient Background Music (Looping)
-        this.ambientMusic = this.sound.add('ambient', { loop: true, volume: 0.5 });
-        this.ambientMusic.play();
+        // ✅ Play Ambient Background Audio (Looping)
+        if (this.cache.audio.has('ambient')) {
+            this.ambientMusic = this.sound.add('ambient', { loop: true, volume: 0.5 });
+            this.ambientMusic.play();
+        } else {
+            console.error("❌ Audio file 'ambient' is missing from cache!");
+        }
 
-        // Dialog Box Constants
-        this.TEXT_X = 250;  
-        this.TEXT_Y = this.scale.height / 2 - 70;  
-        this.NEXT_X = this.scale.width / 1.5;  
-        this.NEXT_Y = this.scale.height - 80; 
+        // ✅ Add Elevator Background Image
+        this.add.image(this.scale.width / 2, this.scale.height / 2, 'elevator')
+            .setOrigin(0.5, 0.5)
+            .setDisplaySize(this.scale.width, this.scale.height);
+
+        // ✅ Move Dialogue Box and Text to the Very Bottom
+        this.TEXT_X = 50;  
+        this.TEXT_Y = this.scale.height - 120;  
+        this.TEXT_MAX_WIDTH = this.scale.width - 100;
         this.TEXT_SIZE = "32px";
-        this.TEXT_MAX_WIDTH = 800; 
         this.LETTER_TIMER = 30;
-        this.NEXT_TEXT = "Press Space To Continue";
+        this.NEXT_TEXT = "Press Space to Continue";
 
-        // Dialog Tracking Variables
         this.dialogConvo = 0;
         this.dialogLine = 0;
         this.dialogTyping = false;
+        this.dialog = this.cache.json.get('elevatorDialog');
 
-        // Load dialogue JSON data
-        this.dialog = this.cache.json.get('dialog');
+        // ✅ Create a **FULL** Black Transparent Border Covering the Entire Bottom
+        this.dialogBox = this.add.graphics();
+        this.dialogBox.fillStyle(0x000000, 0.6); // 60% transparent black
+        this.dialogBox.fillRect(0, this.scale.height - 150, this.scale.width, 150); // Covers entire bottom
 
-        // Create text objects
+        // ✅ Create Dialogue Text (WHITE FONT)
         this.dialogText = this.add.text(this.TEXT_X, this.TEXT_Y, "", {
             fontFamily: "PixelFont",
             fontSize: this.TEXT_SIZE,
@@ -54,16 +65,14 @@ class Talking extends Phaser.Scene {
             wordWrap: { width: this.TEXT_MAX_WIDTH }
         });
 
-        this.nextText = this.add.text(this.NEXT_X, this.NEXT_Y, "", {
+        // ✅ Create "Press Space to Continue" Text at the **VERY BOTTOM**
+        this.nextText = this.add.text(this.scale.width - 50, this.scale.height - 30, this.NEXT_TEXT, {
             fontFamily: "PixelFont",
-            fontSize: this.TEXT_SIZE,
+            fontSize: "24px",
             color: "#ffffff"
         }).setOrigin(1);
 
-        // Handle input
         this.cursors = this.input.keyboard.createCursorKeys();
-
-        // Start first dialogue
         this.typeText();
     }
 
@@ -77,12 +86,12 @@ class Talking extends Phaser.Scene {
         if (!this.dialog || this.dialogConvo >= this.dialog.length) {
             console.log("End of Conversations");
 
-            // ✅ Stop Ambient Music Before Transitioning
+            // ✅ Stop Ambient Music Before Transitioning to the Next Scene
             if (this.ambientMusic && this.ambientMusic.isPlaying) {
                 this.ambientMusic.stop();
             }
 
-            this.scene.start("Elevator");
+            this.scene.start("PlayMain");
             return;
         }
 
@@ -100,7 +109,7 @@ class Talking extends Phaser.Scene {
                     this.ambientMusic.stop();
                 }
 
-                this.scene.start("Elevator");
+                this.scene.start("PlayMain");
                 return;
             }
         }
@@ -109,12 +118,10 @@ class Talking extends Phaser.Scene {
         let speaker = lineData.speaker;
         let text = `${speaker.toUpperCase()}: ${lineData.dialog}`;
 
-        // Hide previous text and reset prompt
         this.dialogTyping = true;
         this.dialogText.setText("");
         this.nextText.setText("");
 
-        // Typewriter effect
         let currentChar = 0;
         let textTimer = this.time.addEvent({
             delay: this.LETTER_TIMER,
@@ -135,3 +142,4 @@ class Talking extends Phaser.Scene {
         this.dialogLine++;
     }
 }
+

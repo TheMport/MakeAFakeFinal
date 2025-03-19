@@ -26,15 +26,13 @@ class preload extends Phaser.Scene {
         this.load.audio('winnermusic', 'assets/Intros/winnermusic.mp3');
 
         //load intro1 theme 
-        this.load.audio('intro1Scene', 'assets/Intros/Intro1Theme.mp3');
+        this.load.audio('ambient', 'assets/Intros/Ambient.mp3');
 
         //load gameplay bg music 
         this.load.audio('gamePlay', 'assets/Intros/Gameplay.mp3');
 
         //load main menu assets & sounds
         this.load.video('MainMenuIntro','assets/Intros/Severance_MM.mp4')
-        
-        //Once space is hit send to PlayIntro1 scene to begin game
 
         //load PlayIntro1 assets & sounds
         this.load.video('PlayIntro1', 'assets/Intros/PlayIntro1.mp4')
@@ -44,6 +42,9 @@ class preload extends Phaser.Scene {
 
         //load gameOver assets & sounds
         this.load.image('gameOver', 'assets/otherImages/gameOver.png')
+
+        // elevator scene bg
+        this.load.image('elevator', 'assets/otherImages/elevator.png')
 
         this.load.image('youWin', 'assets/otherImages/youWin.png')
         //load escapeWin assets & sounds
