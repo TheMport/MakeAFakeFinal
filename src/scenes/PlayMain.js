@@ -36,6 +36,8 @@ class PlayMain extends Phaser.Scene {
         this.load.spritesheet("rotatingKey2",'assets/keyAsset/key_32x32_24f.png', {frameWidth: 32, frameHeight: 32})
         this.load.spritesheet("rotatingKey3",'assets/keyAsset/key_32x32_24f.png', {frameWidth: 32, frameHeight: 32})
 
+        this.load.audio('gamePlay', 'assets/Intros/Gameplay.mp3');
+
         // Debug: Track when textures are loaded
         this.textures.on('addtexture', (key) => {
             console.log(`Texture loaded: ${key}`)
@@ -52,8 +54,14 @@ class PlayMain extends Phaser.Scene {
         const floorLayer = map.createLayer("Floors", tileset)
         const wallLayer = map.createLayer("Walls", tileset)
         const furnitureLayer1 = map.createLayer("Funiture", tileset2)
-        const furnitureLayer2 = map.createLayer("Funiture2", tileset2)
+        const furnitureLayer2 = map.createLayer("Funiture 2", tileset2)
+        const furnitureLayer3 = map.createLayer("Funiture 3", tileset2)
 
+
+        if (!this.sound.get('gamePlay')) {
+            this.themeMusic = this.sound.add('gamePlay', { loop: true, volume: 0.5 });
+            this.themeMusic.play();
+        }
 
         // Set up collision for walls
         if (!wallLayer.layer.properties || !wallLayer.layer.properties.find(p => p.name === "collides")) {
@@ -68,6 +76,11 @@ class PlayMain extends Phaser.Scene {
             furnitureLayer2.setCollisionByExclusion([-1])  // Make all tiles collide except empty ones
         }
 
+        if (!furnitureLayer3.layer.properties || !furnitureLayer3.layer.properties.find(p => p.name === "collides")) {
+            furnitureLayer3.setCollisionByExclusion([-1])  // Make all tiles collide except empty ones
+        }
+
+
         //player spawn according to our map
         let playerX = 1600;
         let playerY = 1568;
@@ -78,10 +91,6 @@ class PlayMain extends Phaser.Scene {
             playerY = spawnPoint.objects[0].y;
         }
 
-        const furniture1 = map.getObjectLayer('Funiture1', tileset2)
-
-        const furniture2 = map.getObjectLayer('Funiture2', tileset2)
-
         
 
         
@@ -90,13 +99,14 @@ class PlayMain extends Phaser.Scene {
         wallLayer.setCollisionByProperty({ collides: true })
         furnitureLayer1.setCollisionByProperty({ collides: true })
         furnitureLayer2.setCollisionByProperty({ collides: true })
+        furnitureLayer3.setCollisionByProperty({ collides: true })
 
         // Debug collision detection
-        this.physics.world.createDebugGraphic();
-        wallLayer.renderDebug(this.add.graphics(), {
-        tileColor: null,
-        collidingTileColor: new Phaser.Display.Color(255, 0, 0, 150),
-});
+        //this.physics.world.createDebugGraphic();
+        //wallLayer.renderDebug(this.add.graphics(), {
+        //tileColor: null,
+        //collidingTileColor: new Phaser.Display.Color(255, 0, 0, 150),
+        //});
         //PlayMain load objects
 
         //Player character sprite and animations
@@ -110,6 +120,7 @@ class PlayMain extends Phaser.Scene {
         this.physics.add.collider(this.player, wallLayer)
         this.physics.add.collider(this.player, furnitureLayer1)
         this.physics.add.collider(this.player, furnitureLayer2)
+        this.physics.add.collider(this.player, furnitureLayer3)
 
 
         this.anims.create({
