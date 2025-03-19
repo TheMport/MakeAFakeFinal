@@ -29,7 +29,7 @@ class mainMenu extends Phaser.Scene {
     update() {
         if (this.keySpace.isDown) {
             this.themeMusic.stop();  // Stop music when transitioning to PlayIntro1
-            this.scene.start('Talking');
+            this.scene.start('PlayIntro1');
         }
     }
 }

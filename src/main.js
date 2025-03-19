@@ -32,7 +32,7 @@ let config = {
             }
         }
     },
-    scene: [preload,PlayIntro1,mainMenu,instructions,credits,Talking,PlayMain,GameOver,escapeWin]
+    scene: [preload,mainMenu,PlayIntro1,instructions,credits,Talking,PlayMain,GameOver,escapeWin]
 }
 
 // define game
