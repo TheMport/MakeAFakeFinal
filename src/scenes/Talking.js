@@ -26,12 +26,12 @@ class Talking extends Phaser.Scene {
         this.dialogMusic.play();
 
         // Dialog Box Constants
-        this.TEXT_X = 250;  // Align text to start from the left side
-        this.TEXT_Y = this.scale.height / 2 - 70;  // Slightly above center
-        this.NEXT_X = this.scale.width / 1.5;  // Centered horizontally
-        this.NEXT_Y = this.scale.height - 80; // Positioned at the bottom
+        this.TEXT_X = 250;  
+        this.TEXT_Y = this.scale.height / 2 - 70;  
+        this.NEXT_X = this.scale.width / 1.5;  
+        this.NEXT_Y = this.scale.height - 80; 
         this.TEXT_SIZE = "32px";
-        this.TEXT_MAX_WIDTH = 800; // Adjust width for better text wrapping
+        this.TEXT_MAX_WIDTH = 800; 
         this.LETTER_TIMER = 30;
         this.NEXT_TEXT = "Press Space To Continue";
 

@@ -6,7 +6,7 @@ class mainMenu extends Phaser.Scene {
     create() { 
         // Play main menu intro video
         let video = this.add.video(640, 360, 'MainMenuIntro').setOrigin(0.5, 0.5);
-        video.play(true);  // Loops until space is pressed
+        video.play(true); 
 
         // Check if music is already playing to prevent overlapping
         if (!this.sound.get('themeSong')) {
@@ -29,7 +29,7 @@ class mainMenu extends Phaser.Scene {
     update() {
         if (this.keySpace.isDown) {
             this.themeMusic.stop();  // Stop music when transitioning to PlayIntro1
-            this.scene.start('PlayIntro1');
+            this.scene.start('Talking');
         }
     }
 }

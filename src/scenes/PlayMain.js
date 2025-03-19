@@ -6,18 +6,6 @@ class PlayMain extends Phaser.Scene {
 
     }
 
-    //Components used in this scene
-    //Physics system (for movement and collisions)
-    //Animation manager (for sprite animations)
-    //Tilemaps (for level design) 
-    //UI (for displaying game information) 
-    //Audio (for sound effects and music
-    //Input (for player controls) 
-    //Scenes (for managing different parts of the game) 
-    //Camera (for following the player) 
-    //Tweens (for animations and transitions) 
-    //Time (for tracking game time) 
-
     preload() {
 
         //load PlayMain assets & sounds
@@ -219,7 +207,7 @@ class PlayMain extends Phaser.Scene {
 
         //add timer if fail game over
 
-        this.timeInSeconds = 360;
+        this.timeInSeconds = 100;
         this.timerCountDown = this.add.text(cameraWidth/1.51,cameraHeight/3.2, 'Seconds Remaining: '+this.timeInSeconds, {
             fontSize: `${adjustedFontSize}px`,
             fill: '#FFF',

@@ -1,10 +1,17 @@
-//// Name: Jennie Le & Miguel Comonfort
+// Name: Jennie Le & Miguel Comonfort
 // Game: Severance: Get To The OTC!
-// Completion Time: 
-// Physics system (for movement and collisions) +1
-// Animation manager (for sprite animations) +1
-// Tilemaps (for level design) +1
-
+// Completion Time: 40 Hours
+// Components used in this scene:
+// Physics system (for movement and collisions)
+// Animation manager (for sprite animations)
+// Tilemaps (for level design) 
+// UI (for displaying game information) 
+// Audio (for sound effects and music
+// Input (for player controls) 
+// Scenes (for managing different parts of the game) 
+// Camera (for following the player) 
+// Tweens (for animations and transitions) 
+// Time (for tracking game time) 
 'use strict'
 
 let config = {
@@ -25,8 +32,7 @@ let config = {
             }
         }
     },
-    //scene: [preload,mainMenu,instructions,credits,PlayIntro1,Talking,PlayMain,GameOver,escapeWin]
-    scene: [PlayMain,GameOver,escapeWin]
+    scene: [preload,PlayIntro1,mainMenu,instructions,credits,Talking,PlayMain,GameOver,escapeWin]
 }
 
 // define game

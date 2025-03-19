@@ -5,16 +5,14 @@ class PlayIntro3 extends Phaser.Scene {
 
     create() {
 
-        //THIS WILL BE THE WHERE MARK WALKS INTOO THE ELEVATOR AND BEFORE GOING IN 
-        //SAYS HELLO TO THE SECURITY GUARD
-        //will be implemented later 
+        //MORE ART COMING SOON
         
         let video = this.add.video(640, 360, 'PlayIntro3').setOrigin(0.5, 0.5);
         video.play(true);
         
 
         video.on('complete', () => {
-            this.scene.start('PlayIntro4');
+            this.scene.start('PlayMain');
         });
     }
 
