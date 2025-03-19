@@ -7,16 +7,16 @@ class PlayMain extends Phaser.Scene {
     }
 
     //Components used in this scene
-    //Physics system (for movement and collisions) +1
-    //Animation manager (for sprite animations) +1
-    //Tilemaps (for level design) +1    
-    //UI (for displaying game information) +1
+    //Physics system (for movement and collisions)
+    //Animation manager (for sprite animations)
+    //Tilemaps (for level design) 
+    //UI (for displaying game information) 
     //Audio (for sound effects and music
-    //Input (for player controls) +1
-    //Scenes (for managing different parts of the game) +1
-    //Camera (for following the player) +1
-    //Tweens (for animations and transitions) +1
-    //Time (for tracking game time) +1
+    //Input (for player controls) 
+    //Scenes (for managing different parts of the game) 
+    //Camera (for following the player) 
+    //Tweens (for animations and transitions) 
+    //Time (for tracking game time) 
 
     preload() {
 
@@ -131,7 +131,7 @@ class PlayMain extends Phaser.Scene {
         //add rotating key sprite and animations
         this.keyNotCollected1 = this.physics.add.sprite(64,1312, 'rotatingKey1')
         this.keyNotCollected2 = this.physics.add.sprite(1792,2912, 'rotatingKey2')
-        this.keyNotCollected3 = this.physics.add.sprite(3154.77,1626.48, 'rotatingKey3')
+        this.keyNotCollected3 = this.physics.add.sprite(1760.00,448.00, 'rotatingKey3')
 
 
         this.anims.create({
