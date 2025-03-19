@@ -5,7 +5,7 @@ class escapeWin extends Phaser.Scene {
 
     preload() {
         // Load the win screen image and winner music
-        this.load.image('youWin', 'assets/otherImages/youWin.png');
+        this.load.image('youWin', 'assets/otherImages/YouWin.png');
         this.load.audio('winnermusic', 'assets/Intros/winnermusic.mp3');
     }
 
