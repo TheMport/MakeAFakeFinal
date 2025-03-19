@@ -25,8 +25,8 @@ let config = {
             }
         }
     },
-    //scene: [preload,mainMenu,PlayIntro1,Talking,PlayMain]
-    scene: [PlayMain,GameOver,escapeWin]
+    scene: [preload,mainMenu,instructions,credits,PlayIntro1,Talking,PlayMain,GameOver,escapeWin]
+    //scene: [PlayMain,GameOver,escapeWin]
 }
 
 // define game

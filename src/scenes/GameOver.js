@@ -3,12 +3,21 @@ class GameOver extends Phaser.Scene {
         super('GameOver');
     }
 
+    preload() {
+        this.load.image('gameOver', 'assets/otherImages/gameOver.png')
+        }
+
     create() {
-        this.add.text(20, 20, 'Game Over', { fontSize: '32px', fill: '#fff' });
-        this.add.text(20, 60, 'Press R to restart', { fontSize: '32px', fill: '#fff' });
+        this.add.image(640, 360, 'gameOver').setOrigin(0.5, 0.5)
+
+
 
         this.input.keyboard.on('keydown-R', () => {
             this.scene.start('PlayMain');
+        });
+
+        this.input.keyboard.on('keydown-M', () => {
+            this.scene.start('mainMenu');
         });
     }
 }

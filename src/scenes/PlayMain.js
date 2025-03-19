@@ -6,6 +6,18 @@ class PlayMain extends Phaser.Scene {
 
     }
 
+    //Components used in this scene
+    //Physics system (for movement and collisions) +1
+    //Animation manager (for sprite animations) +1
+    //Tilemaps (for level design) +1    
+    //UI (for displaying game information) +1
+    //Audio (for sound effects and music
+    //Input (for player controls) +1
+    //Scenes (for managing different parts of the game) +1
+    //Camera (for following the player) +1
+    //Tweens (for animations and transitions) +1
+    //Time (for tracking game time) +1
+
     preload() {
 
         //load PlayMain assets & sounds
@@ -52,6 +64,10 @@ class PlayMain extends Phaser.Scene {
             furnitureLayer1.setCollisionByExclusion([-1])  // Make all tiles collide except empty ones
         }
 
+        if (!furnitureLayer2.layer.properties || !furnitureLayer2.layer.properties.find(p => p.name === "collides")) {
+            furnitureLayer2.setCollisionByExclusion([-1])  // Make all tiles collide except empty ones
+        }
+
         //player spawn according to our map
         let playerX = 1600;
         let playerY = 1568;
@@ -73,6 +89,7 @@ class PlayMain extends Phaser.Scene {
         // Enable collision for walls
         wallLayer.setCollisionByProperty({ collides: true })
         furnitureLayer1.setCollisionByProperty({ collides: true })
+        furnitureLayer2.setCollisionByProperty({ collides: true })
 
         // Debug collision detection
         this.physics.world.createDebugGraphic();
@@ -92,6 +109,7 @@ class PlayMain extends Phaser.Scene {
 
         this.physics.add.collider(this.player, wallLayer)
         this.physics.add.collider(this.player, furnitureLayer1)
+        this.physics.add.collider(this.player, furnitureLayer2)
 
 
         this.anims.create({
@@ -190,7 +208,7 @@ class PlayMain extends Phaser.Scene {
 
         //add timer if fail game over
 
-        this.timeInSeconds = 1000;
+        this.timeInSeconds = 10;
         this.timerCountDown = this.add.text(cameraWidth/1.51,cameraHeight/3.2, 'Seconds Remaining: '+this.timeInSeconds, {
             fontSize: `${adjustedFontSize}px`,
             fill: '#FFF',

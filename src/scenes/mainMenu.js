@@ -12,7 +12,14 @@ class mainMenu extends Phaser.Scene {
         
         //main menu key commands (space to start, I for instructions)
         this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE)
+        
+        this.input.keyboard.on('keydown-T', () => {
+            this.scene.start('instructions')
+        })
 
+        this.input.keyboard.on('keydown-C', () => {
+            this.scene.start('credits')
+        })
 
     }
 
