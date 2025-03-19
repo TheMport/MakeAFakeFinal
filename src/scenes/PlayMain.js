@@ -207,7 +207,7 @@ class PlayMain extends Phaser.Scene {
 
         //add timer if fail game over
 
-        this.timeInSeconds = 100;
+        this.timeInSeconds = 180;
         this.timerCountDown = this.add.text(cameraWidth/1.51,cameraHeight/3.2, 'Seconds Remaining: '+this.timeInSeconds, {
             fontSize: `${adjustedFontSize}px`,
             fill: '#FFF',

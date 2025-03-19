@@ -11,7 +11,7 @@ class PlayIntro1 extends Phaser.Scene {
         // Once the video finishes, transition to the main menu
         video.on('complete', () => {
             console.log('PlayIntro1 video finished.'); // Debug message
-            this.scene.start('mainMenu');
+            this.scene.start('Talking');
         });
 
         // Allow skipping the intro by pressing SPACE
