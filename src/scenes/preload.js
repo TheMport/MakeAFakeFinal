@@ -32,8 +32,9 @@ class preload extends Phaser.Scene {
         this.load.video('PlayIntro2', 'assets/Intros/PlayIntro2.mp4')
 
         //load PlayIntro3 assets & sounds
-        this.load.image("gameTileset", 'assets/GameTileset/1_Room_Builder_Office/Room_Builder_Office_32x32.png')
-        this.load.tilemapTiledJSON("map", 'assets/SeveranceMap/SeveranceMap1.json')
+        //this.load.image("gameTileset", 'assets/GameTileset/1_Room_Builder_Office/Room_Builder_Office_32x32.png')
+        //this.load.image("furitureTileset", 'assets/GameTileset/2_Modern_Office_Black_Shadow/Modern_Office_Black_Shadow_32x32.png')
+        //this.load.tilemapTiledJSON("map", 'assets/SeveranceMap/SeveranceMap.json')
 
 
     }
