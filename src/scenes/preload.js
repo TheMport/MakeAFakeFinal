@@ -20,6 +20,14 @@ class preload extends Phaser.Scene {
 
         //preview aike mp4 intro
 
+        //load the bg music 
+        this.load.audio('themeSong', 'assets/Intros/ThemeSong.mp3');
+
+        //load intro1 theme 
+        this.load.audio('intro1Scene', 'assets/Intros/Intro1Theme.mp3');
+
+        //load gameplay bg music 
+        this.load.audio('gamePlay', 'assets/Intros/Gameplay.mp3');
 
         //load main menu assets & sounds
         this.load.video('MainMenuIntro','assets/Intros/Severance_MM.mp4')

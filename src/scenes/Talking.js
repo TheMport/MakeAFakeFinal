@@ -13,26 +13,27 @@ class Talking extends Phaser.Scene {
 
         // Load dialogue JSON data
         this.load.json('dialog', 'assets/json/dialog.json');
-
     }
 
     create() {
         console.log("Talking scene started!");
 
-// Dialog Box Constants
-// Dialog Box Constants
-this.TEXT_X = 250;  // Align text to start from the left side
-this.TEXT_Y = this.scale.height / 2 - 70;  // Slightly above center
+        // Stop any previous sounds before playing this scene
+        this.sound.stopAll();
 
-this.NEXT_X = this.scale.width / 1.5;  // Centered horizontally
-this.NEXT_Y = this.scale.height - 80; // Positioned at the bottom
+        // Play the background music for this scene
+        this.dialogMusic = this.sound.add('intro1Scene', { loop: true, volume: 0.5 });
+        this.dialogMusic.play();
 
-this.TEXT_SIZE = "32px";
-this.TEXT_MAX_WIDTH = 800; // Adjust width for better text wrapping
-this.LETTER_TIMER = 30;
-this.NEXT_TEXT = "Press Space To Continue";
-
-        
+        // Dialog Box Constants
+        this.TEXT_X = 250;  // Align text to start from the left side
+        this.TEXT_Y = this.scale.height / 2 - 70;  // Slightly above center
+        this.NEXT_X = this.scale.width / 1.5;  // Centered horizontally
+        this.NEXT_Y = this.scale.height - 80; // Positioned at the bottom
+        this.TEXT_SIZE = "32px";
+        this.TEXT_MAX_WIDTH = 800; // Adjust width for better text wrapping
+        this.LETTER_TIMER = 30;
+        this.NEXT_TEXT = "Press Space To Continue";
 
         // Dialog Tracking Variables
         this.dialogConvo = 0;
@@ -72,6 +73,12 @@ this.NEXT_TEXT = "Press Space To Continue";
     typeText() {
         if (!this.dialog || this.dialogConvo >= this.dialog.length) {
             console.log("End of Conversations");
+
+            // Stop the music before transitioning to the next scene
+            if (this.dialogMusic && this.dialogMusic.isPlaying) {
+                this.dialogMusic.stop();
+            }
+
             this.scene.start("PlayMain");
             return;
         }
@@ -84,6 +91,12 @@ this.NEXT_TEXT = "Press Space To Continue";
 
             if (this.dialogConvo >= this.dialog.length) {
                 console.log("No more conversations, exiting...");
+
+                // Stop the music before transitioning to the next scene
+                if (this.dialogMusic && this.dialogMusic.isPlaying) {
+                    this.dialogMusic.stop();
+                }
+
                 this.scene.start("PlayMain");
                 return;
             }
